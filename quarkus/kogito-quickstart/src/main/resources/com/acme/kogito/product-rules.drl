@@ -1,0 +1,24 @@
+package com.acme.kogito;
+
+unit ProductUnit;
+
+import com.acme.kogito.model.Product;
+import java.util.UUID;
+
+rule "Validate stock"
+when 
+    $product: /product[stock < 0]
+then
+    modify($product) {
+        setStock(0)
+    }
+end
+
+rule "Create id"
+when
+    $product: /product[id == null]
+then 
+    modify($product) {
+        setId(UUID.randomUUID().toString())
+    }
+end
